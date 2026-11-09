@@ -1,0 +1,30 @@
+[
+  {
+    "username": "admin",
+    "fullName": "Administrador AgroCafé",
+    "email": "admin@agrocafe.com",
+    "password": "123",
+    "role": "Administrador"
+  },
+  {
+    "username": "propietario",
+    "fullName": "Carlos Delgado",
+    "email": "propietario@agrocafe.com",
+    "password": "123",
+    "role": "Propietario"
+  },
+  {
+    "username": "encargado",
+    "fullName": "María Restrepo",
+    "email": "encargado@agrocafe.com",
+    "password": "123",
+    "role": "Encargado"
+  },
+  {
+    "username": "colaborador",
+    "fullName": "Pedro Gómez",
+    "email": "colaborador@agrocafe.com",
+    "password": "123",
+    "role": "Colaborador"
+  }
+]
