@@ -24,11 +24,7 @@ object AuthService {
         if (customServerIp.isNotBlank()) {
             return "http://${customServerIp.trim()}:8081"
         }
-        return if (getPlatform().name.startsWith("Android")) {
-            "http://10.0.2.2:8081"
-        } else {
-            "http://127.0.0.1:8081"
-        }
+        return "https://agrocafe-production.up.railway.app"
     }
 
     suspend fun login(username: String, password: String): LoginResponse {
