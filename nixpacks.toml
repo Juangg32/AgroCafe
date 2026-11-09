@@ -1,0 +1,8 @@
+[phases.setup]
+nixPkgs = ["openjdk17", "gradle"]
+
+[phases.build]
+cmds = ["gradle :backend:build -x test"]
+
+[phases.start]
+cmd = "gradle :backend:run"
