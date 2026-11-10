@@ -13,7 +13,6 @@ enum class Screen {
     DASHBOARD,
     SCANNER
 }
-//Hola juan
 @Composable
 fun App() {
     var currentScreen by remember { mutableStateOf(Screen.LOGIN) }
