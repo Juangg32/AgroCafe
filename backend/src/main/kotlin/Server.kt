@@ -111,7 +111,7 @@ private fun saveUsers(users: List<User>) {
 fun main() {
     val users = loadUsers()
 
-    println("Iniciando servidor AgroCafé en el puerto 8081 (host 0.0.0.0)...")
+    println("Iniciando servidor AgroCafé en el puerto 8081 (host 0.0.0.0) - Despliegue CI/CD Activo...")
 
     embeddedServer(Netty, port = 8081, host = "0.0.0.0") {
         install(CORS) {
