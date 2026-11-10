@@ -111,11 +111,10 @@ private fun saveUsers(users: List<User>) {
 fun main() {
     val users = loadUsers()
 
-    // Prueba de despliegue automático
-    println("Iniciando servidor AgroCafé en el puerto 8081 (host 0.0.0.0)...")
-    println("Despliegue automático verificado - AgroCafé backend OK")
+    val port = System.getenv("PORT")?.toInt() ?: 8081
+    println("Iniciando servidor AgroCafé en el puerto $port (host 0.0.0.0)...")
 
-    embeddedServer(Netty, port = 8081, host = "0.0.0.0") {
+    embeddedServer(Netty, port = port, host = "0.0.0.0") {
         install(CORS) {
             anyHost()
             allowHeader(HttpHeaders.ContentType)
