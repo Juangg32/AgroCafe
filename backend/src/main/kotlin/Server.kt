@@ -51,8 +51,6 @@ private val jsonFormat = Json {
     ignoreUnknownKeys = true
     encodeDefaults = true
 }
-//hola soy joshua.
-
 private val possibleUserFiles = listOf(
     File("backend/src/main/resources/users.json"),
     File("src/main/resources/users.json"),
