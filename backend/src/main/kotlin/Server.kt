@@ -51,6 +51,7 @@ private val jsonFormat = Json {
     ignoreUnknownKeys = true
     encodeDefaults = true
 }
+//hola soy joshua.
 
 private val possibleUserFiles = listOf(
     File("backend/src/main/resources/users.json"),
@@ -104,10 +105,16 @@ private fun saveUsers(users: List<User>) {
 fun main() {
     val users = loadUsers()
 
+<<<<<<< HEAD
     val port = System.getenv("PORT")?.toInt() ?: 8081
     println("Iniciando servidor AgroCafé en el puerto $port (host 0.0.0.0) - Despliegue CI/CD Activo...")
+=======
+    // Prueba de despliegue automático
+    println("Iniciando servidor AgroCafé en el puerto 8081 (host 0.0.0.0)...")
+    println("Despliegue automático verificado - AgroCafé backend OK")
+>>>>>>> 8808092 (Primer commit del proyecto)
 
-    embeddedServer(Netty, port = port, host = "0.0.0.0") {
+    embeddedServer(Netty, port = 8081, host = "0.0.0.0") {
         install(CORS) {
             anyHost()
             allowHeader(HttpHeaders.ContentType)
