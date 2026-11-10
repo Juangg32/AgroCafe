@@ -84,15 +84,8 @@ private fun loadUsers(): CopyOnWriteArrayList<User> {
         println("Error cargando usuarios: ${e.message}")
     }
 
-    // Usuarios por defecto para AgroCafé en caso de error de lectura
-    return CopyOnWriteArrayList(
-        listOf(
-            User(username = "admin", fullName = "Administrador AgroCafé", email = "admin@agrocafe.com", password = "123", role = "Administrador"),
-            User(username = "propietario", fullName = "Carlos Delgado", email = "propietario@agrocafe.com", password = "123", role = "Propietario"),
-            User(username = "encargado", fullName = "María Restrepo", email = "encargado@agrocafe.com", password = "123", role = "Encargado"),
-            User(username = "colaborador", fullName = "Pedro Gómez", email = "colaborador@agrocafe.com", password = "123", role = "Colaborador")
-        )
-    )
+    // Sin usuarios precargados; la lista inicia vacía para obligar al registro en servidor
+    return CopyOnWriteArrayList()
 }
 
 private fun saveUsers(users: List<User>) {
