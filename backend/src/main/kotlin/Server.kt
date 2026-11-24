@@ -45,6 +45,63 @@ data class LoginResponse(
     val username: String? = null
 )
 
+@Serializable
+data class Parcela(
+    val id: String,
+    val nombre: String,
+    val comunidad: String,
+    val altitud: Double,
+    val variedad: String,
+    val productorUsername: String
+)
+
+@Serializable
+data class CosechaRequest(
+    val id: String,
+    val parcelaId: String,
+    val productorUsername: String,
+    val recolectorUsername: String,
+    val comunidad: String,
+    val variedad: String,
+    val kilogramos: Double,
+    val humedad: Double,
+    val altitud: Double,
+    val fechaCorte: String,
+    val observaciones: String = ""
+)
+
+@Serializable
+data class MicroLote(
+    val id: String,
+    val codigo: String,
+    val productorUsername: String,
+    val parcelaId: String,
+    val variedad: String,
+    val kilogramos: Double,
+    val estado: String,
+    val fechaRegistro: String
+)
+
+@Serializable
+data class MacroLote(
+    val id: String,
+    val codigo: String,
+    val variedad: String,
+    val kilogramosTotales: Double,
+    val estado: String,
+    val microLoteIds: List<String>
+)
+
+@Serializable
+data class AlertaClimatica(
+    val id: String,
+    val titulo: String,
+    val mensaje: String,
+    val tipo: String,
+    val fecha: String,
+    val parcelaId: String? = null
+)
+
 private val jsonFormat = Json {
     prettyPrint = true
     isLenient = true
