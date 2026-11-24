@@ -102,6 +102,15 @@ data class AlertaClimatica(
     val parcelaId: String? = null
 )
 
+private val parcelasStore = CopyOnWriteArrayList<Parcela>()
+private val cosechasStore = CopyOnWriteArrayList<CosechaRequest>()
+private val microlotesStore = CopyOnWriteArrayList<MicroLote>()
+private val alertasStore = CopyOnWriteArrayList<AlertaClimatica>(
+    listOf(
+        AlertaClimatica("1", "Alerta de Lluvia Próxima", "Se pronostica lluvia en la comunidad durante las próximas horas. Protege el café en secado.", "Climatica", "2026-06-06 08:00")
+    )
+)
+
 private val jsonFormat = Json {
     prettyPrint = true
     isLenient = true
@@ -304,6 +313,54 @@ fun main() {
                         username = trimmedName
                     )
                 )
+            }
+
+            // --- ETAPA 4: NUEVOS ENDPOINTS DE DOMINIO ---
+            get("/parcelas") {
+                call.respond(parcelasStore)
+            }
+
+            post("/parcelas") {
+                val parcela = call.receive<Parcela>()
+                parcelasStore.add(parcela)
+                call.respond(mapOf("success" to true, "message" to "Parcela registrada exitosamente"))
+            }
+
+            get("/cosechas") {
+                call.respond(cosechasStore)
+            }
+
+            post("/cosechas") {
+                val cosecha = call.receive<CosechaRequest>()
+                cosechasStore.add(cosecha)
+
+                val nuevoMicroLote = MicroLote(
+                    id = "ML-${System.currentTimeMillis()}",
+                    codigo = "QR-LOTE-${(1000..9999).random()}",
+                    productorUsername = cosecha.productorUsername,
+                    parcelaId = cosecha.parcelaId,
+                    variedad = cosecha.variedad,
+                    kilogramos = cosecha.kilogramos,
+                    estado = "En recepción",
+                    fechaRegistro = cosecha.fechaCorte
+                )
+                microlotesStore.add(nuevoMicroLote)
+
+                call.respond(
+                    mapOf(
+                        "success" to true,
+                        "message" to "Cosecha registrada y micro-lote generado exitosamente",
+                        "microLoteId" to nuevoMicroLote.id
+                    )
+                )
+            }
+
+            get("/microlotes") {
+                call.respond(microlotesStore)
+            }
+
+            get("/alertas") {
+                call.respond(alertasStore)
             }
         }
     }.start(wait = true)
