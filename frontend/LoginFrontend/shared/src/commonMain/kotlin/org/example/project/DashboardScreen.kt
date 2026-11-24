@@ -41,10 +41,9 @@ fun DashboardScreen(
     onLogout: () -> Unit
 ) {
     val roleBadge = when (role) {
-        "Propietario" -> "👑 Propietario de Finca"
-        "Administrador" -> "🛡️ Administrador General"
-        "Encargado de Lote" -> "🚜 Encargado de Lote"
-        else -> "🤝 Colaborador de Campo"
+        "Propietario", "Productor" -> "☕ Productor de Café"
+        "Recolector de campo", "Colaborador" -> "🌿 Recolector de Campo"
+        else -> "🛡️ $role"
     }
 
     Box(
@@ -246,27 +245,49 @@ fun DashboardScreen(
 
             Spacer(modifier = Modifier.height(14.dp))
 
-            // Role Metrics Grid
+            // Role Metrics Grid (Productor / Recolector de Campo)
             when (role) {
-                "Propietario" -> {
-                    MetricCard("Quintales Cosechados", "1,240 QQ", "Finca Ofelia - Producción 2026", Icons.Default.Star)
+                "Propietario", "Productor" -> {
+                    MetricCard("Mis Parcelas", "3 Parcelas Finca El Mirador", "Variedad Caturra y Typica", Icons.Default.Place)
                     Spacer(modifier = Modifier.height(12.dp))
-                    MetricCard("Lotes Activos", "8 Lotes", "Caturra, Castillo & Geisha", Icons.Default.Home)
-                }
-                "Administrador" -> {
-                    MetricCard("Personal en Campo", "18 Colaboradores", "Asistencia registrada hoy", Icons.Default.Person)
-                    Spacer(modifier = Modifier.height(12.dp))
-                    MetricCard("Sacos en Bodega", "340 Sacos (48kg)", "Listo para exportación", Icons.Default.ShoppingCart)
-                }
-                "Encargado de Lote" -> {
-                    MetricCard("Lote Asignado", "Lote 4 - El Roble", "Fase de Recolección", Icons.Default.Place)
-                    Spacer(modifier = Modifier.height(12.dp))
-                    MetricCard("Calidad de Grano", "98.5% Aprobado", "Muestra de laboratorio", Icons.Default.CheckCircle)
+                    MetricCard("Estado de Micro-lotes", "2 Lotes en Secado", "Trazabilidad activa", Icons.Default.CheckCircle)
                 }
                 else -> {
-                    MetricCard("Jornal Recolectado", "12 Sacos", "Registro del día", Icons.Default.Favorite)
+                    MetricCard("Jornal Recolectado", "18 Kg", "Corte del día registrado", Icons.Default.Favorite)
                     Spacer(modifier = Modifier.height(12.dp))
-                    MetricCard("Estado de Entrega", "Validado en Pesaje", "Verificado por Encargado", Icons.Default.Done)
+                    MetricCard("Parcelas Asignadas", "Sector Norte - Lote 2", "Acceso autorizado", Icons.Default.Home)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Weather Alert Banner (RN-M-08)
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .shadow(4.dp, RoundedCornerShape(16.dp)),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF3E0))
+            ) {
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(text = "🌧️", fontSize = 28.sp)
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Column {
+                        Text(
+                            text = "Alerta Climática: Lluvia Próxima",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 14.sp,
+                            color = Color(0xFFE65100)
+                        )
+                        Text(
+                            text = "Se pronostica precipitación en tu zona. Protege el café en secado.",
+                            fontSize = 12.sp,
+                            color = Color(0xFFBF360C)
+                        )
+                    }
                 }
             }
 
