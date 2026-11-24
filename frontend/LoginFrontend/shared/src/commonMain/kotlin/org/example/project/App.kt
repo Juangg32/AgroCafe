@@ -1,8 +1,8 @@
-package org.example.project
-
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import kotlinx.coroutines.launch
@@ -22,10 +22,15 @@ fun App() {
     var currentUsername by remember { mutableStateOf("Juan Pérez") }
     var currentUserRole by remember { mutableStateOf("Propietario") }
 
+    // Sensor / Estado para modo nocturno automático y manual
+    var isDarkMode by remember { mutableStateOf(false) }
+
     val coroutineScope = rememberCoroutineScope()
     val biometricAuthenticator = rememberBiometricAuthenticator()
 
-    MaterialTheme {
+    MaterialTheme(
+        colorScheme = if (isDarkMode) darkColorScheme() else lightColorScheme()
+    ) {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
@@ -101,6 +106,8 @@ fun App() {
                 Screen.DASHBOARD -> DashboardScreen(
                     username = currentUsername,
                     role = currentUserRole,
+                    isDarkMode = isDarkMode,
+                    onToggleTheme = { isDarkMode = !isDarkMode },
                     onOpenScanner = {
                         currentScreen = Screen.SCANNER
                     },

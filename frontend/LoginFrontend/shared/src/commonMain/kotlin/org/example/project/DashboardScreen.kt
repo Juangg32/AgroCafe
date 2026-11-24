@@ -36,6 +36,8 @@ private val MutedGrey = Color(0xFF7F8C8D)
 fun DashboardScreen(
     username: String,
     role: String,
+    isDarkMode: Boolean,
+    onToggleTheme: () -> Unit,
     onOpenScanner: () -> Unit,
     onTriggerBiometrics: () -> Unit,
     onLogout: () -> Unit
@@ -110,17 +112,30 @@ fun DashboardScreen(
                     }
                 }
 
-                IconButton(
-                    onClick = onLogout,
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .background(Color.White.copy(alpha = 0.2f))
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-                        contentDescription = "Cerrar Sesión",
-                        tint = Color.White
-                    )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    IconButton(
+                        onClick = onToggleTheme,
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .background(Color.White.copy(alpha = 0.2f))
+                    ) {
+                        Text(text = if (isDarkMode) "☀️" else "🌙", fontSize = 18.sp)
+                    }
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    IconButton(
+                        onClick = onLogout,
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .background(Color.White.copy(alpha = 0.2f))
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                            contentDescription = "Cerrar Sesión",
+                            tint = Color.White
+                        )
+                    }
                 }
             }
 
