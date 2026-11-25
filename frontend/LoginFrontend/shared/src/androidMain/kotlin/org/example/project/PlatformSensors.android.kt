@@ -1,7 +1,12 @@
 package org.example.project
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -183,6 +188,29 @@ actual fun CameraPreviewView(
                     Text("Conceder Permiso")
                 }
             }
+        }
+    }
+}
+
+@Composable
+actual fun rememberAmbientLightDetector(onLightLevelChanged: (Float) -> Unit) {
+    val context = LocalContext.current
+    DisposableEffect(context) {
+        val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as? SensorManager
+        val lightSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_LIGHT)
+        val listener = object : SensorEventListener {
+            override fun onSensorChanged(event: SensorEvent) {
+                if (event.sensor.type == Sensor.TYPE_LIGHT) {
+                    onLightLevelChanged(event.values[0])
+                }
+            }
+            override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+        }
+        lightSensor?.let {
+            sensorManager.registerListener(listener, it, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+        onDispose {
+            sensorManager?.unregisterListener(listener)
         }
     }
 }

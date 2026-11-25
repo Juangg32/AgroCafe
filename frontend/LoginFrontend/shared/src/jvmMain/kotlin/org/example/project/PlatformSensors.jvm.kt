@@ -46,3 +46,8 @@ actual fun CameraPreviewView(
         )
     }
 }
+
+@Composable
+actual fun rememberAmbientLightDetector(onLightLevelChanged: (Float) -> Unit) {
+    // No-op en JVM
+}

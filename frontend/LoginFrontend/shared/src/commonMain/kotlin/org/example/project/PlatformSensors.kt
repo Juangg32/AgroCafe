@@ -21,3 +21,6 @@ expect fun CameraPreviewView(
     flashEnabled: Boolean,
     onBarcodeDetected: (String) -> Unit
 )
+
+@Composable
+expect fun rememberAmbientLightDetector(onLightLevelChanged: (Float) -> Unit)

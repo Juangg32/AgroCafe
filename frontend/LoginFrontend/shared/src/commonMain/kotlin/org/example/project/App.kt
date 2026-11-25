@@ -1,3 +1,5 @@
+package org.example.project
+
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -24,6 +26,13 @@ fun App() {
 
     // Sensor / Estado para modo nocturno automático y manual
     var isDarkMode by remember { mutableStateOf(false) }
+
+    // Integración del sensor de luz físico del teléfono (Android Sensor.TYPE_LIGHT)
+    rememberAmbientLightDetector { lux ->
+        if (lux < 10f) {
+            isDarkMode = true
+        }
+    }
 
     val coroutineScope = rememberCoroutineScope()
     val biometricAuthenticator = rememberBiometricAuthenticator()
