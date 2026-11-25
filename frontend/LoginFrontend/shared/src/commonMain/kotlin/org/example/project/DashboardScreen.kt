@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -28,9 +27,6 @@ private val DeepCoffeeGreen = Color(0xFF1B4D3E)
 private val BrightForestGreen = Color(0xFF2D7D46)
 private val CoffeeAmber = Color(0xFFC67C4E)
 private val WarmBackground = Color(0xFFF9F6F0)
-private val SoftCardBg = Color(0xFFFFFFFF)
-private val TextDark = Color(0xFF2C3E50)
-private val MutedGrey = Color(0xFF7F8C8D)
 
 @Composable
 fun DashboardScreen(
@@ -48,18 +44,25 @@ fun DashboardScreen(
         else -> "🛡️ $role"
     }
 
+    // Colores dinámicos para Modo Claro y Modo Oscuro
+    val bgColors = if (isDarkMode) {
+        listOf(Color(0xFF0F172A), Color(0xFF1E293B), Color(0xFF090D16))
+    } else {
+        listOf(DeepCoffeeGreen, BrightForestGreen, WarmBackground)
+    }
+
+    val cardBg = if (isDarkMode) Color(0xFF1E293B) else Color(0xFFFFFFFF)
+    val textColor = if (isDarkMode) Color(0xFFFFFFFF) else Color(0xFF2C3E50)
+    val mutedColor = if (isDarkMode) Color(0xFF94A3B8) else Color(0xFF7F8C8D)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(
-                        DeepCoffeeGreen,
-                        BrightForestGreen,
-                        WarmBackground
-                    ),
+                    colors = bgColors,
                     startY = 0f,
-                    endY = 550f
+                    endY = 600f
                 )
             )
     ) {
@@ -158,7 +161,7 @@ fun DashboardScreen(
                     .shadow(8.dp, RoundedCornerShape(20.dp))
                     .clickable { onOpenScanner() },
                 shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(containerColor = SoftCardBg)
+                colors = CardDefaults.cardColors(containerColor = cardBg)
             ) {
                 Row(
                     modifier = Modifier.padding(20.dp),
@@ -179,12 +182,12 @@ fun DashboardScreen(
                             text = "Escáner de Lotes & Sacos",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
-                            color = TextDark
+                            color = textColor
                         )
                         Text(
                             text = "Escanear códigos de barras de paquetes y entregas en campo",
                             fontSize = 12.sp,
-                            color = MutedGrey
+                            color = mutedColor
                         )
                     }
                     Icon(
@@ -204,7 +207,7 @@ fun DashboardScreen(
                     .shadow(8.dp, RoundedCornerShape(20.dp))
                     .clickable { onTriggerBiometrics() },
                 shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(containerColor = SoftCardBg)
+                colors = CardDefaults.cardColors(containerColor = cardBg)
             ) {
                 Row(
                     modifier = Modifier.padding(20.dp),
@@ -225,12 +228,12 @@ fun DashboardScreen(
                             text = "Sensor Biométrico (Huella)",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
-                            color = TextDark
+                            color = textColor
                         )
                         Text(
                             text = "Autenticación rápida mediante sensor de huella activado",
                             fontSize = 12.sp,
-                            color = MutedGrey
+                            color = mutedColor
                         )
                     }
                     Surface(
@@ -255,7 +258,7 @@ fun DashboardScreen(
                 text = "Panel de Control: $role",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                color = TextDark
+                color = Color.White
             )
 
             Spacer(modifier = Modifier.height(14.dp))
@@ -263,14 +266,14 @@ fun DashboardScreen(
             // Role Metrics Grid (Productor / Recolector de Campo)
             when (role) {
                 "Propietario", "Productor" -> {
-                    MetricCard("Mis Parcelas", "3 Parcelas Finca El Mirador", "Variedad Caturra y Typica", Icons.Default.Place)
+                    MetricCard("Mis Parcelas", "3 Parcelas Finca El Mirador", "Variedad Caturra y Typica", Icons.Default.Place, cardBg, textColor, mutedColor)
                     Spacer(modifier = Modifier.height(12.dp))
-                    MetricCard("Estado de Micro-lotes", "2 Lotes en Secado", "Trazabilidad activa", Icons.Default.CheckCircle)
+                    MetricCard("Estado de Micro-lotes", "2 Lotes en Secado", "Trazabilidad activa", Icons.Default.CheckCircle, cardBg, textColor, mutedColor)
                 }
                 else -> {
-                    MetricCard("Jornal Recolectado", "18 Kg", "Corte del día registrado", Icons.Default.Favorite)
+                    MetricCard("Jornal Recolectado", "18 Kg", "Corte del día registrado", Icons.Default.Favorite, cardBg, textColor, mutedColor)
                     Spacer(modifier = Modifier.height(12.dp))
-                    MetricCard("Parcelas Asignadas", "Sector Norte - Lote 2", "Acceso autorizado", Icons.Default.Home)
+                    MetricCard("Parcelas Asignadas", "Sector Norte - Lote 2", "Acceso autorizado", Icons.Default.Home, cardBg, textColor, mutedColor)
                 }
             }
 
@@ -282,7 +285,7 @@ fun DashboardScreen(
                     .fillMaxWidth()
                     .shadow(4.dp, RoundedCornerShape(16.dp)),
                 shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF3E0))
+                colors = CardDefaults.cardColors(containerColor = if (isDarkMode) Color(0xFF33271A) else Color(0xFFFFF3E0))
             ) {
                 Row(
                     modifier = Modifier.padding(16.dp),
@@ -295,12 +298,12 @@ fun DashboardScreen(
                             text = "Alerta Climática: Lluvia Próxima",
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp,
-                            color = Color(0xFFE65100)
+                            color = if (isDarkMode) Color(0xFFFFB74D) else Color(0xFFE65100)
                         )
                         Text(
                             text = "Se pronostica precipitación en tu zona. Protege el café en secado.",
                             fontSize = 12.sp,
-                            color = Color(0xFFBF360C)
+                            color = if (isDarkMode) Color(0xFFFFCC80) else Color(0xFFBF360C)
                         )
                     }
                 }
@@ -314,7 +317,7 @@ fun DashboardScreen(
                     .fillMaxWidth()
                     .shadow(4.dp, RoundedCornerShape(16.dp)),
                 shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = SoftCardBg)
+                colors = CardDefaults.cardColors(containerColor = cardBg)
             ) {
                 Row(
                     modifier = Modifier.padding(18.dp),
@@ -335,12 +338,12 @@ fun DashboardScreen(
                             text = "Sensor de Luz Ambiental",
                             fontSize = 15.sp,
                             fontWeight = FontWeight.Bold,
-                            color = TextDark
+                            color = textColor
                         )
                         Text(
                             text = if (isDarkMode) "Estado: Noche / Oscuridad detectada" else "Estado: Día / Luz ambiental normal",
                             fontSize = 12.sp,
-                            color = MutedGrey
+                            color = mutedColor
                         )
                     }
                     Switch(
@@ -381,13 +384,13 @@ fun DashboardScreen(
 }
 
 @Composable
-private fun MetricCard(title: String, value: String, description: String, icon: ImageVector) {
+private fun MetricCard(title: String, value: String, description: String, icon: ImageVector, cardBg: Color, textColor: Color, mutedColor: Color) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .shadow(4.dp, RoundedCornerShape(16.dp)),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = SoftCardBg)
+        colors = CardDefaults.cardColors(containerColor = cardBg)
     ) {
         Row(
             modifier = Modifier.padding(18.dp),
@@ -397,21 +400,21 @@ private fun MetricCard(title: String, value: String, description: String, icon: 
                 modifier = Modifier
                     .size(46.dp)
                     .clip(CircleShape)
-                    .background(DeepCoffeeGreen.copy(alpha = 0.1f)),
+                    .background(CoffeeAmber.copy(alpha = 0.2f)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = DeepCoffeeGreen,
+                    tint = CoffeeAmber,
                     modifier = Modifier.size(24.dp)
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))
             Column {
-                Text(text = title, fontSize = 12.sp, color = MutedGrey)
-                Text(text = value, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = TextDark)
-                Text(text = description, fontSize = 11.sp, color = DeepCoffeeGreen, fontWeight = FontWeight.Medium)
+                Text(text = title, fontSize = 12.sp, color = mutedColor)
+                Text(text = value, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = textColor)
+                Text(text = description, fontSize = 11.sp, color = CoffeeAmber, fontWeight = FontWeight.Medium)
             }
         }
     }
