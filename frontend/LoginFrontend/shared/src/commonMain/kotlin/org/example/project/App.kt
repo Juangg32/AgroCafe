@@ -26,11 +26,12 @@ fun App() {
 
     // Sensor / Estado para modo nocturno automático y manual
     var isDarkMode by remember { mutableStateOf(false) }
+    var isManualOverride by remember { mutableStateOf(false) }
 
     // Integración del sensor de luz físico del teléfono (Android Sensor.TYPE_LIGHT)
     rememberAmbientLightDetector { lux ->
-        if (lux < 10f) {
-            isDarkMode = true
+        if (!isManualOverride) {
+            isDarkMode = (lux < 10f)
         }
     }
 
@@ -116,7 +117,10 @@ fun App() {
                     username = currentUsername,
                     role = currentUserRole,
                     isDarkMode = isDarkMode,
-                    onToggleTheme = { isDarkMode = !isDarkMode },
+                    onToggleTheme = {
+                        isDarkMode = !isDarkMode
+                        isManualOverride = true
+                    },
                     onOpenScanner = {
                         currentScreen = Screen.SCANNER
                     },
