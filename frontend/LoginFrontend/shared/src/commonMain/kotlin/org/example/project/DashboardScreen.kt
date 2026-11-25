@@ -309,50 +309,6 @@ fun DashboardScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Light Sensor Simulator Card / Switch
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .shadow(4.dp, RoundedCornerShape(16.dp)),
-                shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = cardBg)
-            ) {
-                Row(
-                    modifier = Modifier.padding(18.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(46.dp)
-                            .clip(CircleShape)
-                            .background(CoffeeAmber.copy(alpha = 0.15f)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "💡", fontSize = 24.sp)
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = "Sensor de Luz Ambiental",
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = textColor
-                        )
-                        Text(
-                            text = if (isDarkMode) "Estado: Noche / Oscuridad detectada" else "Estado: Día / Luz ambiental normal",
-                            fontSize = 12.sp,
-                            color = mutedColor
-                        )
-                    }
-                    Switch(
-                        checked = isDarkMode,
-                        onCheckedChange = { onToggleTheme() }
-                    )
-                }
-            }
-
             Spacer(modifier = Modifier.height(28.dp))
 
             // Logout Button
